@@ -4,13 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-
+import { PrimeReactProvider } from 'primereact/api';
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import 'primeicons/primeicons.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <PrimeReactProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </PrimeReactProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

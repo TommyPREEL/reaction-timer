@@ -2,16 +2,12 @@
 import './App.css';
 import { useEffect } from 'react';
 
-import mainPage from './pages/mainPage/mainPage';
+import MainPage from './pages/mainPage/mainPage';
 
 function App() {
-  useEffect(() => {
-    fetch('http://localhost:4000/api/')
-  })
   
   return (
-    
-  <mainPage/>
+    <MainPage/>
   );
 }
 

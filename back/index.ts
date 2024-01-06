@@ -5,8 +5,13 @@ import connectToDatabase from './database';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User } from './interface/users';
+const cors = require('cors');
+
 
 const app = express();
+app.use(cors({
+    origin: '*'
+  }));
 const port = 3000;
 const secretKey = 'your_secret_key';
 
@@ -107,6 +112,23 @@ app.put('/editBestTime', verifyToken, async (req, res) => {
       }
   });
 });
+
+// Endpoint to get the best_time for a user
+app.get('/getBestTime/:username', verifyToken, async (req, res) => {
+    const username = req.params.username;
+  
+    // Update the best_time for the user
+    db.get('SELECT best_time FROM Users WHERE WHERE username = ?', [username], function (err, row) {
+        if (err) {
+            console.error('Error getting best_time:', err.message);
+            res.status(500).json({ message: 'Server error' });
+        } else {
+            console.log('Best time getting successfully for user:', username);
+            console.log('row:', row)
+            res.json({ bestTime: row});
+        }
+    });
+  });
 
 // Endpoint to get all best times
 app.get('/getAllBestTimes', verifyToken, (req, res) => {

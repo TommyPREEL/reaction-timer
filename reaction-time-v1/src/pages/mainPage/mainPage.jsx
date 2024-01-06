@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import GlobalContext from '../../context/Context';
+import Register from '../Register/Register';
 
 function MainPage() {
   const { user, setUser } = useContext(GlobalContext);
@@ -18,16 +19,16 @@ function MainPage() {
   const [timeoutIdStart, setTimeoutIdStart] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3000/getBestTime', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((bestTimeBack) => {
-        setBestTime(bestTimeBack);
-      });
+    // fetch('http://localhost:3000/getBestTime', {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((bestTimeBack) => {
+    //     setBestTime(bestTimeBack);
+    //   });
   }, []);
 
   useEffect(() => {
@@ -100,7 +101,9 @@ function MainPage() {
     <div className="all-page">
       <Toast ref={toast} />
       {!user ? (
-        <div className="sidebar">Connexion</div>
+        <div className="sidebar">
+          <Register></Register>
+        </div>
       ) : (
         <div>Best time : {bestTime} ms</div>
       )}

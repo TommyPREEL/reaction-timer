@@ -1,11 +1,14 @@
 import './mainPage.css';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import GlobalContext from '../../context/Context';
 
 function MainPage() {
+  const { user, setUser } = useContext(GlobalContext);
   const toast = useRef(null);
   const [time, setTime] = useState(0);
+  const [bestTime, setBestTime] = useState(0);
   const [classForGameBlock, setClassForGameBlock] =
     useState('circle no-display');
   const [isGameStarted, setIsGameStarted] = useState(false);
@@ -13,6 +16,19 @@ function MainPage() {
   const [startDate, setStartDate] = useState();
   const [reactionFormat, setReactionFormat] = useState(null);
   const [timeoutIdStart, setTimeoutIdStart] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/getBestTime', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((bestTimeBack) => {
+        setBestTime(bestTimeBack);
+      });
+  }, []);
 
   useEffect(() => {
     let intervalId;
@@ -83,7 +99,11 @@ function MainPage() {
   return (
     <div className="all-page">
       <Toast ref={toast} />
-      <div className="sidebar">Connexion</div>
+      {!user ? (
+        <div className="sidebar">Connexion</div>
+      ) : (
+        <div>Best time : {bestTime} ms</div>
+      )}
       <div className="main-page">
         <div>When the green circle appears, stop the game !</div>
         <div>{reactionFormat !== null ? reactionFormat : '0'} ms</div>
